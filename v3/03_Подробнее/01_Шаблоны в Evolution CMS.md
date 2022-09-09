@@ -174,6 +174,11 @@ Hello, {!! $name !!}.
 ```html
 @include('parts.footer')
 ```
+Если в `@include` нужно обработать данные, воспользуйтесь следующей конструкцией 
+
+```html
+@include('patch.to.view',[ 'data' => $data] )
+```
 
 ### Директивы <a name="section2-5"></a> ###
 
@@ -192,6 +197,7 @@ Hello, {!! $name !!}.
 ```html
 @makeUrl(2)
 ```
+
 
 #### Оператор If #### 
 ```html
