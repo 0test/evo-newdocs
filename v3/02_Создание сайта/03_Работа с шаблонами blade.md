@@ -145,10 +145,10 @@ Hello, {!! $name !!}.
 
 Таким же образом можно получить доступ к различным объектам, предоставляемым системой.
 ```
-{!! modx->getConfig('site_name) !!}
+{!! $modx->getConfig('site_name) !!}
 ```
 ```
-{!! modx->runSnippet('DocLister', [
+{!! $modx->runSnippet('DocLister', [
 	'parent' => 1,
 	'tpl' => 'parts.one_item'
 ])!!}
