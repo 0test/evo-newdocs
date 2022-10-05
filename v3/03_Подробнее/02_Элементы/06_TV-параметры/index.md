@@ -104,7 +104,7 @@ Document from [^s^].
 
 Для создания параметра необходимо нажать на ссылку "Элементы - Параметры (TV)" и выбрать "Новый параметр (TV)".
 
-![пример](https://raw.githubusercontent.com/0test/docs/master/ru/02_Разработка/01_TV-параметры/tv_create.png)
+![пример](https://raw.githubusercontent.com/0test/evo-newdocs/main/v3/03_%D0%9F%D0%BE%D0%B4%D1%80%D0%BE%D0%B1%D0%BD%D0%B5%D0%B5/02_%D0%AD%D0%BB%D0%B5%D0%BC%D0%B5%D0%BD%D1%82%D1%8B/06_TV-%D0%BF%D0%B0%D1%80%D0%B0%D0%BC%D0%B5%D1%82%D1%80%D1%8B/tv_create.png)
 
 ### Назначение полей
 

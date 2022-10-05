@@ -3,19 +3,19 @@
 
 #### Главная страница модуля ####
 Список товаров из нужного раздела, у каждого товара есть заголовок, аннотация и редактирование. Тв-параметры мы брать не будем, это всё же модуль для обучения.
-![screenshot_1](https://raw.githubusercontent.com/0test/docs/master/ru/02_Разработка/07_Elements/20_Modules/1.png)
+![screenshot_1](https://raw.githubusercontent.com/0test/evo-newdocs/main/v3/03_Подробнее/02_Элементы/05_Модули/1.png)
 
 #### Процесс редактирования ####
-![screenshot_2](https://raw.githubusercontent.com/0test/docs/master/ru/02_Разработка/07_Elements/20_Modules/2.png)
+![screenshot_2](https://raw.githubusercontent.com/0test/evo-newdocs/main/v3/03_Подробнее/02_Элементы/05_Модули/2.png)
 
 #### Дополнительная вкладка ####
-![screenshot_3](https://raw.githubusercontent.com/0test/docs/master/ru/02_Разработка/07_Elements/20_Modules/3.png)
+![screenshot_3](https://raw.githubusercontent.com/0test/evo-newdocs/main/v3/03_Подробнее/02_Элементы/05_Модули/3.png)
 По функционалу она тут не нужна, сделаем её для примера.
 
 #### Структура модуля ####
 1. Лезем в assets/modules и создаём папки и пустые файлы.
 
-![screenshot_4](https://raw.githubusercontent.com/0test/docs/master/ru/02_Разработка/07_Elements/20_Modules/4.png)
+![screenshot_4](https://raw.githubusercontent.com/0test/evo-newdocs/main/v3/03_Подробнее/02_Элементы/05_Модули/4.png)
 
 Основная папка модуля — contentEditor. В ней всего 1 файл — это core.php. Ядро и основной функционал нашего будущего модуля. В css будут стили, в templates шаблоны, в lang языковые версии.
 
@@ -26,7 +26,7 @@
 Создаём файл main.html. У всех файлов указывать кодировку utf-8 (без BOM)!
 Давайте ещё раз глянем на стартовую страницу нашего будущего модуля и определимся, что нужно верстать.
 
-![main](https://raw.githubusercontent.com/0test/docs/master/ru/02_Разработка/07_Elements/20_Modules/5.png)
+![main](https://raw.githubusercontent.com/0test/evo-newdocs/main/v3/03_Подробнее/02_Элементы/05_Модули/5.png)
 
 Для того, чтобы мы могли использовать стили и некоторые возможности Evo, пишем в секции head следующее:
 
@@ -49,7 +49,7 @@
 Зачем мы это сделали? Чтобы наш модуль брал стили из той темы админки, которая установлена в настройках сайта в данный момент.
 
 Для примера я меняю тему на старую, и вот так теперь выглядит модуль в стиле старой-доброй зелёненькой админки из версии 1.15.
-![115](https://raw.githubusercontent.com/0test/docs/master/ru/02_Разработка/07_Elements/20_Modules/6.png)
+![115](https://raw.githubusercontent.com/0test/evo-newdocs/main/v3/03_Подробнее/02_Элементы/05_Модули/6.png)
 
 Едем дальше. Как мы видим, наверху модуля у нас есть заголовок, аннотация и кнопка «Обновить». Давайте их сделаем. Открываем body и пишем:
 
@@ -265,7 +265,7 @@ switch($_REQUEST['action']){
 
 Здесь возникает вопрос, что за $params['sectionId'] такая. Если вы лазали в конфигурации модулей, то могли увидеть там похожую картину:
 
-![config](https://raw.githubusercontent.com/0test/docs/master/ru/02_Разработка/07_Elements/20_Modules/7.png)
+![config](https://raw.githubusercontent.com/0test/evo-newdocs/main/v3/03_Подробнее/02_Элементы/05_Модули/7.png)
 
 Это параметры модуля, особенность Эво. Скрипт модуля всегда их получает в массиве $params. Как задать параметр? Для начала надо создать новый модуль. Перейти во вкладку «Свойства» и там задать параметры в формате json. Нам нужен только 1 параметр, sectionId. В него будем писать, из какого раздела брать документы. Заполняем свойства
 ```php
