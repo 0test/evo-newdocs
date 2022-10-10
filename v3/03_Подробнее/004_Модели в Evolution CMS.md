@@ -6,6 +6,13 @@
 
 1. [Пример](#section1)
 2. [Наследование](#section2)
+3. [Получение моделей](#section3)
+4. [Связи](#section4)
+5. [Жадная загрузка](#section5)
+6. [Преобразование значений ](#section6)
+7. [Пример мутатора для изменения размеров изображений](#section7)
+
+
 
 ## Пример модели <a name="section1"></a> ##
 
@@ -41,7 +48,7 @@ class Example extends SiteContent {
 	protected $table = 'site_content';
 }
 ```
-## Получение моделей ##
+## Получение моделей <a name="section3"></a> ##
 
 Все методы Eloquent, которые возвращают более одного результата модели, будут возвращать экземпляры класса Illuminate\Database\Eloquent\Collection, включая результаты, полученные с помощью метода get или доступные через отношения.
 
@@ -58,9 +65,17 @@ foreach (News::all() as $news) {
 ```php
 <?php
 use EvolutionCMS\Main\Models\Article;
-
 // Получить модель по ее первичному ключу
-$article = Article::find(1);
+// Используем id документа
+// Заодно получим ТВ-параметр news_image
+
+$id =  $this->evo->documentObject['id'];
+$result = News::
+withTVs(['news_image'])
+->find($id)
+;
+$this->data['item'] = $result;
+return $this->data['item'];
 
 // Получить первую модель, соответствующую условиям
 $article = Article::where('active', 1)->first();
@@ -69,7 +84,7 @@ $article = Article::where('active', 1)->first();
 $article = App\Models\Article::firstWhere('active', 1);
 ```
 
-## Связи ##
+## Связи <a name="section4"></a> ##
 
 Модели могут быть связаны друг с другом разными способами. Динамические свойства позволяют получить доступ к методам отношений, как если бы они были свойствами, определенными в модели
 
@@ -188,11 +203,7 @@ return $comment->post;
 ### Отношения Многие ко многим
 Пример: у пользователя много ролей, а у роли много пользователей.
 
-## Агрегирование связанных моделей ##
- Подсчет связанных моделей
- Другие агрегатные функции
- Подсчет связанных моделей отношений Morph To
- ## Жадная загрузка (eager loading) ##
+## Жадная загрузка (eager loading) <a name="section5"></a> ##
 
  При построении запроса вы можете указать, какие отношения должны быть загружены с помощью метода with:
 ```php
@@ -219,5 +230,103 @@ class Book extends Model
 ```
 
 
-## Преобразование значений (аксессоры, мутаторы) ##
+## Преобразование значений (аксессоры, мутаторы) <a name="section6"></a> ##
 
+
+### Аксессор  ###
+
+Аксессор преобразует значение атрибутов модели.
+
+Пример
+> Колонка published в базе данных отдаёт цифровое значение: 1 для опубликованного документа и 0 для неопубликованного. А в разметке на сайте вы хотите ставить css-классы `news-pub` и `news-unpub`.
+
+Конечно, можно использовать директивы типа @if в шаблонах блейд. Но зачастую логика подобных преобразований сложнее, чем использование условных операторов.
+
+Чтобы определить аксессор, создайте метод `get{Attribute}Attribute` в вашей модели, где {Attribute} – это имя столбца, к которому вы хотите получить доступ, в верхнем регистре.
+
+```php
+public function getPublishedTextAttribute()
+{
+    $classes = [
+        'news-unpub',
+        'news-pub',
+    ];
+    return $classes[$this->published];
+}
+```
+
+
+Теперь, чтобы получить доступ к значению, вы можете просто получить доступ к атрибуту `publishedText` экземпляра модели:
+
+ ```html
+<article class="{{ $article->publishedText }}">
+    <!-- content -->
+</article>
+```
+
+Разумеется, вы не ограничены взаимодействием с одним атрибутом в аксессоре. Вы можете использовать аксессор для возврата новых  значений из существующих атрибутов:
+```php
+/**
+ * Получить полное имя пользователя.
+ *
+ * @return string
+ */
+public function getFullNameAttribute()
+{
+    return "{$this->first_name} {$this->last_name}";
+}
+```
+
+
+
+###  Мутатор ###
+
+Мутатор преобразует значение атрибута в момент их присвоения экземпляру Eloquent. Чтобы определить мутатор, определите метод `set{Attribute}Attribute` в вашей модели, где {Attribute} – это имя столбца, к которому вы хотите получить доступ, в «верхнем» регистре.
+
+Определим мутатор для атрибута first_name. Этот мутатор будет автоматически вызываться, когда мы попытаемся присвоить значение атрибута first_name модели:
+
+```php
+public function setFirstNameAttribute($value)
+{
+    $this->attributes['first_name'] = strtolower($value);
+}
+```
+
+Этот механизм работает исключительно при создании модели средствами Eloquent и не сработает при создании документа из админ-панели.
+
+
+## Пример мутатора для изменения размеров изображений <a name="section7"></a> ##
+
+Давайте добавим модели News возможность отдать ТВ news_image, преобразованный с помощью [хелпера phpThumb](/v3/03_%D0%9F%D0%BE%D0%B4%D1%80%D0%BE%D0%B1%D0%BD%D0%B5%D0%B5/008_DI_%D0%93%D0%BB%D0%BE%D0%B1%D0%B0%D0%BB%D1%8C%D0%BD%D1%8B%D0%B5%20%D0%BF%D0%BE%D0%BC%D0%BE%D1%89%D0%BD%D0%B8%D0%BA%D0%B8.md).
+
+В классе модели необходимо добавить атрибут, который и будет содержать метод для изменения и возвращения значения ТВ.
+
+```php 
+<?php 
+namespace EvolutionCMS\Main\Models;
+use EvolutionCMS\Facades\HelperProcessor;
+use EvolutionCMS\Models\SiteContent;
+use Illuminate\Database\Eloquent\Builder;
+
+class News extends SiteContent {
+	protected $table = 'site_content';
+	protected static function booted()
+    {
+        //  объявляем, что новость это ресурсы, имеющие шаблон номер 3
+        static::addGlobalScope('custom_template', function (Builder $builder) {
+            $builder->where('template', 3);
+        });
+    }
+    public function getResizedImageAttribute()
+    {
+        //  используем "помощник"
+        return HelperProcessor::phpThumb($this->news_image,'w=300,zc=1');
+    }
+}
+```
+> Обратите внимание, сверху мы подключаем `HelperProcessor` для использования хелпера и `Builder` для изменения запроса.
+
+Выводим параметр в нужном нам шаблоне
+```html
+<img src="/{{ $item->resizedImage }}" alt="">
+```
