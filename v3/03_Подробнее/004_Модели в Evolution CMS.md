@@ -325,7 +325,15 @@ class News extends SiteContent {
 }
 ```
 > Обратите внимание, сверху мы подключаем `HelperProcessor` для использования хелпера и `Builder` для изменения запроса.
-
+Не забудьте в контроллере сделать связь с `news_image`
+```php
+$result = News::
+        withTVs(['news_image'])
+        ->active()
+        ->paginate(1);
+        $this->data['news'] = $result;
+        return $this->data['news'];
+```
 Выводим параметр в нужном нам шаблоне
 ```html
 <img src="/{{ $item->resizedImage }}" alt="">
