@@ -1,6 +1,14 @@
 # DocumentManager #
+
+```php
+/*
+* namespace
+*/
+use EvolutionCMS\DocumentManager\Facades\DocumentManager;
+```
+
 Методы, связаные с управлением ресурсами в EvolutionCMS.
-Все действия связанные с документами проходят через эти методы.
+Все действия, связанные с документами проходят через эти методы.
 
 **Доступные функции и примеры использования**
 
@@ -29,7 +37,7 @@ SiteContent \DocumentManager::get(integer $documentId)
 Пример получения документа
 ```php
 $document = \DocumentManager::get(1);
-print_r($document->toArray());
+dd($document->toArray());
 ```
 
 ___
@@ -60,9 +68,9 @@ try {
     $document = \DocumentManager::create($document);
 } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-    print_r($validateErrors); //Выводим все ошибки валидации
+    dd($validateErrors); //Выводим все ошибки валидации
 } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-     print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+     dd($exception->getMessage()); //Выводим ошибку процесса обработки данных
 }
 ```
 
@@ -94,9 +102,9 @@ try {
     $document = \DocumentManager::edit($data);
 } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-    print_r($validateErrors); //Выводим все ошибки валидации
+    dd($validateErrors); //Выводим все ошибки валидации
 } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-     print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+     dd($exception->getMessage()); //Выводим ошибку процесса обработки данных
 }
 ```
 ___
@@ -127,9 +135,9 @@ try {
     $document = \DocumentManager::delete($data);
 } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-    print_r($validateErrors); //Выводим все ошибки валидации
+    dd($validateErrors); //Выводим все ошибки валидации
 } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-    print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+    dd($exception->getMessage()); //Выводим ошибку процесса обработки данных
 }
 ```
 
@@ -161,9 +169,9 @@ try {
     $document = \DocumentManager::undelete($data);
 } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-    print_r($validateErrors); //Выводим все ошибки валидации
+    dd($validateErrors); //Выводим все ошибки валидации
 } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-    print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+    dd($exception->getMessage()); //Выводим ошибку процесса обработки данных
 }
 ```
 
@@ -195,9 +203,9 @@ try {
     $document = \DocumentManager::duplicate($data);
 } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-    print_r($validateErrors); //Выводим все ошибки валидации
+    dd($validateErrors); //Выводим все ошибки валидации
 } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-    print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+    dd($exception->getMessage()); //Выводим ошибку процесса обработки данных
 }
 ```
 
@@ -229,9 +237,9 @@ try {
     $document = \DocumentManager::setGroups($data);
 } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-    print_r($validateErrors); //Выводим все ошибки валидации
+    dd($validateErrors); //Выводим все ошибки валидации
 } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-    print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+    dd($exception->getMessage()); //Выводим ошибку процесса обработки данных
 }
 ```
 
@@ -263,9 +271,9 @@ try {
     $document = \DocumentManager::publish($data);
 } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-    print_r($validateErrors); //Выводим все ошибки валидации
+    dd($validateErrors); //Выводим все ошибки валидации
 } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-    print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+    dd($exception->getMessage()); //Выводим ошибку процесса обработки данных
 }
 ```
 
@@ -289,7 +297,7 @@ SiteContent \DocumentManager::unpublish(array $documentData, bool $events = true
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $documentData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
-Пример функции снятия с публикации документа
+Пример функции снятия документа с публикации 
 
 ```php
 $data = ['id'=> 1];
@@ -297,9 +305,9 @@ try {
     $document = \DocumentManager::unpublish($data);
 } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-    print_r($validateErrors); //Выводим все ошибки валидации
+    dd($validateErrors); //Выводим все ошибки валидации
 } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-    print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+    dd($exception->getMessage()); //Выводим ошибку процесса обработки данных
 }
 ```
 
@@ -330,8 +338,8 @@ try {
     $document = \DocumentManager::clearCart();
 } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-    print_r($validateErrors); //Выводим все ошибки валидации
+    dd($validateErrors); //Выводим все ошибки валидации
 } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-    print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+    dd($exception->getMessage()); //Выводим ошибку процесса обработки данных
 }
 ```
