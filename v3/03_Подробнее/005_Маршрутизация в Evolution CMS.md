@@ -37,11 +37,13 @@ AliasListing отвечает за ускорение генерации адр�
 
 ### Роуты по-умолчанию ### 
 
+Подключаем фасад роутов `use Illuminate\Support\Facades\Route;`.
 В `core/custom/routes.php` пишем маршруты
 
 ```php
 <?php
 use EvolutionCMS\Main\Controllers\ArticleController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/articles', [ArticleController::class, 'index'] );
 Route::get('/articles/{id}', [ArticleController::class, 'show'] );
@@ -51,6 +53,7 @@ Route::get('/articles/{id}', [ArticleController::class, 'show'] );
 
 Создать файл `core/custom/packages/NAME/routes.php`:
 ```php
+use Illuminate\Support\Facades\Route;
 Route::get('test/{id}', [ArticleController::class, 'show']);
 ```
 В сервис-провайдере вашего пакета загрузить их, задав middleware.
