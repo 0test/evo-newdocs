@@ -1,50 +1,51 @@
-# UserManager #
+# UserManager
 
 Различные методы, связаные с управлением пользователем в EvolutionCMS.
 
-**Доступные функции и примеры использования**
+## Доступные функции и примеры использования
 
-1. [get](#get) - получение пользователя
-2. [create](#create) - регистрация пользователя
-3. [edit](#edit) - редактирование пользователя
-4. [delete](#delete) - удаление пользователя
-5. [getValues](#getValues) - получение TV пользователя
-6. [saveValues](#saveValues) - редактирование TV пользователя
-7. [login](#login) - авторизация пользователя
-8. [loginById](#loginById) - авторизация пользователя по его id
-9. [logout](#logout) - Выход пользователя из системы
-10. [setRole](#setRole) - назначение пользователю его роли
-11. [setGroups](#setGroups) - назначению пользователю его группы пользователей
-12. [clearSettings](#clearSettings) - удалеение всех настроек пользователя
-13. [saveSettings](#saveSettings) - сохранение настроек пользователя
-14. [repairPassword](#repair) - получение хэша для сброса пароля
-15. [changePassword](#changePassword) - смена пароля при наличии старого пароля
-16. [hashChangePassword](#hashChangePassword) - смена пароля по хэшу полученному из метода [ repairPassword ](#repair)
-17. [generateAndSavePassword](#generateAndSavePassword) - смена пароля на автосгенерированный для дальнейшей отправки пользователю
-18. [refreshToken](#refreshToken) - обновление токена авторизации
-19. [getVerifiedKey](#getVerifiedKey) - получение ключа верификации пользователя
-20. [verified](#verified) - подтверждение пользователя с помощью ключа верификации
+- [get](#get) - получение пользователя
+- [create](#create) - регистрация пользователя
+- [edit](#edit) - редактирование пользователя
+- [delete](#delete) - удаление пользователя
+- [getValues](#getValues) - получение TV пользователя
+- [saveValues](#saveValues) - редактирование TV пользователя
+- [login](#login) - авторизация пользователя
+- [loginById](#loginById) - авторизация пользователя по его id
+- [logout](#logout) - Выход пользователя из системы
+- [setRole](#setRole) - назначение пользователю его роли
+- [setGroups](#setGroups) - назначению пользователю его группы пользователей
+- [clearSettings](#clearSettings) - удалеение всех настроек пользователя
+- [saveSettings](#saveSettings) - сохранение настроек пользователя
+- [repairPassword](#repair) - получение хэша для сброса пароля
+- [changePassword](#changePassword) - смена пароля при наличии старого пароля
+- [hashChangePassword](#hashChangePassword) - смена пароля по хэшу полученному из метода [ repairPassword ](#repair)
+- [generateAndSavePassword](#generateAndSavePassword) - смена пароля на автосгенерированный для дальнейшей отправки пользователю
+- [refreshToken](#refreshToken) - обновление токена авторизации
+- [getVerifiedKey](#getVerifiedKey) - получение ключа верификации пользователя
+- [verified](#verified) - подтверждение пользователя с помощью ключа верификации
 
+## **get** - получение пользователя<a name="get"></a>
 
-<a name="get"></a>
-**get** - получение пользователя
 ```php
 User \UserManager::get(integer $userId)
 ```
+
 Функция возвращает объект модели пользователя User
 
 Параметры, которые принимает функция:
+
 - `$userId` - id пользователя, которого желаем получить
 
 Пример получения пользователя и вывода его атрибутов
+
 ```php
 $user = \UserManager::get(1);
 print_r($user->attributes->toArray());
 ```
 
-___
-<a name="create"></a>
-**create** - регистрация пользователя
+## **create** - регистрация пользователя <a name="create"></a>
+
 ```php
 User \UserManager::create(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -54,14 +55,15 @@ User \UserManager::create(array $userData, bool $events = true, bool $cache = tr
 Функция возвращает объект модели пользователя User
 
 Параметры, которые принимает функция:
-- `$userData` - массив содержащий поля пользователя. Обязательные поля `username, password, password_confirmation, email`. 
-Поле `password` должно быть минимум 6 символов, `password_confirmation` должен быть равен полю `password`.  Поля `email` и `username` должны быть уникальными.
+
+- `$userData` - массив содержащий поля пользователя. Обязательные поля `username, password, password_confirmation, email`.
+  Поле `password` должно быть минимум 6 символов, `password_confirmation` должен быть равен полю `password`. Поля `email` и `username` должны быть уникальными.
 - `$events` - указатель вызываем ли мы события связанные с созданием пользователя
 - `$cache` - указатель сбрасываем ли кэш после создания пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае, если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации, когда возникла ошибка в процессе обработки данных.
 
@@ -79,9 +81,8 @@ try {
 }
 ```
 
-___
-<a name="edit"></a>
-**edit** - редактирование пользователя
+## **edit** - редактирование пользователя <a name="edit"></a>
+
 ```php
 User \UserManager::edit(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -89,15 +90,16 @@ User \UserManager::edit(array $userData, bool $events = true, bool $cache = true
 Функция возвращает объект модели пользователя User
 
 Параметры, которые принимает функция:
-- `$userData` - массив содержащий поля пользователя. Обязательные поля `id`. В ситуациях если вы передаёте поле `password`: 
-`password` должен быть минимум 6 символов. `password_confirmation` должен быть равен полю `password`. 
-Если передаёте `email` и `username` - они должны быть уникальными для этого пользователя.
+
+- `$userData` - массив содержащий поля пользователя. Обязательные поля `id`. В ситуациях если вы передаёте поле `password`:
+  `password` должен быть минимум 6 символов. `password_confirmation` должен быть равен полю `password`.
+  Если передаёте `email` и `username` - они должны быть уникальными для этого пользователя.
 - `$events` - указатель вызываем ли мы события связанные с редактированием пользователя
 - `$cache` - указатель сбрасываем ли кэш после редактирования пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
@@ -114,9 +116,9 @@ try {
      print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
 }
 ```
-___
-<a name="delete"></a>
-**delete** - удаление пользователя
+
+## **delete** - удаление пользователя <a name="delete"></a>
+
 ```php
 User \UserManager::delete(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -124,13 +126,14 @@ User \UserManager::delete(array $userData, bool $events = true, bool $cache = tr
 Функция возвращает username пользователя
 
 Параметры, которые принимает функция:
+
 - `$userData` - массив содержащий id пользователя.
 - `$events` - указатель вызываем ли мы события связанные с удалением пользователя
 - `$cache` - указатель сбрасываем ли кэш после удаления пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
@@ -148,15 +151,16 @@ try {
 }
 ```
 
-___
-<a name="getValues"></a>
-**getValues** - получение TV пользователя
+## **getValues** - получение TV пользователя <a name="getValues"></a>
+
 ```php
 array \UserManager::getValues(array $userData, bool $events = true, bool $cache = true)
 ```
+
 Функция возвращает массив TV пользователя User в формате `[ 'tvname1' => 'tvvalue1', 'tvname2' => 'tvvalue2', ... ]`
 
 Параметры, которые принимает функция:
+
 - `userData` - массив содержащий поля пользователя.
 - `id` - обязательное поле, необходимо для поиска пользователя.
 - `tvNames` - необязательное поле, массив имён TV. Если не указано, то возвращаются все TV.
@@ -164,12 +168,13 @@ array \UserManager::getValues(array $userData, bool $events = true, bool $cache 
 - `$cache` - указатель сбрасываем ли кэш после создания пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
 Пример общий
+
 ```php
 $data = [ 'id' => $userid ];
 try {
@@ -182,14 +187,16 @@ try {
 }
 ```
 
-Пример получения всех TV пользователя 
+Пример получения всех TV пользователя
+
 ```php
 $data = [ 'id' => 1 ];
 $tvValues = \UserManager::getValues($data);
 print_r($tvValues);
 ```
 
-Пример получения отдельных TV пользователя 
+Пример получения отдельных TV пользователя
+
 ```php
 $data = [ 'id' => 1, 'tvNames' => [ 'user_tv1', 'user_tv2' ] ];
 $tvValues = \UserManager::getValues($data);
@@ -197,6 +204,7 @@ print_r($tvValues);
 ```
 
 Пример с использованием id пользователя из evo
+
 ```php
 $userid = evolutionCMS()->getLoginUserID();
 $data = [ 'id' => $userid ];
@@ -204,26 +212,28 @@ $tvValues = \UserManager::getValues($data);
 print_r($tvValues);
 ```
 
-___
-<a name="saveValues"></a>
-**saveValues** - редактирование TV пользователя
+## **saveValues** - редактирование TV пользователя <a name="saveValues"></a>
+
 ```php
 array \UserManager::saveValues(array $userData, bool $events = true, bool $cache = true)
 ```
+
 Функция возвращает `true` в случае успешного сохранения
 
 Параметры, которые принимает функция:
+
 - `$userData` - массив содержащий id пользователя и прочие данные. Поле id является обязательным.
 - `$events` - указатель вызываем ли мы события связанные с сохранением настроек пользователя
 - `$cache` - указатель сбрасываем ли кэш после сохранения настроек пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
 Пример общий
+
 ```php
 $data = [ 'id' => 1, 'some_tv1' => 'something', 'other_tv2' => 'awesome' ];
 try {
@@ -236,9 +246,8 @@ try {
 }
 ```
 
-___
-<a name="login"></a>
-**login** - авторизация пользователя
+## **login** - авторизация пользователя <a name="login"></a>
+
 ```php
 User \UserManager::login(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -246,14 +255,15 @@ User \UserManager::login(array $userData, bool $events = true, bool $cache = tru
 Функция возвращает объект модели пользователя User
 
 Параметры, которые принимает функция:
-- `$userData` - массив содержащий поля необходимые для авторизации пользователя. Обязательные поля 
-username и password, необходимы для авторизации пользователя. 
+
+- `$userData` - массив содержащий поля необходимые для авторизации пользователя. Обязательные поля
+  username и password, необходимы для авторизации пользователя.
 - `$events` - указатель вызываем ли мы события связанные с авторизацией пользователя
 - `$cache` - указатель сбрасываем ли кэш после авторизации пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
@@ -271,9 +281,8 @@ try {
 }
 ```
 
-___
-<a name="loginById"></a>
-**loginById** - авторизация пользователя по его id
+## **loginById** - авторизация пользователя по его id <a name="loginById"></a>
+
 ```php
 User \UserManager::loginById(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -281,13 +290,13 @@ User \UserManager::loginById(array $userData, bool $events = true, bool $cache =
 Функция возвращает объект модели пользователя User
 
 Параметры, которые принимает функция:
-- `$userData` - массив содержащий поля необходимые для авторизации пользователя. Обязательнон поле id
--` $events` - указатель вызываем ли мы события связанные с авторизацией пользователя
+
+- `$userData` - массив содержащий поля необходимые для авторизации пользователя. Обязательнон поле id -` $events` - указатель вызываем ли мы события связанные с авторизацией пользователя
 - `$cache` - указатель сбрасываем ли кэш после авторизации пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
@@ -305,9 +314,8 @@ try {
 }
 ```
 
-___
-<a name="logout"></a>
-**logout** - Выход пользователя из системы
+## **logout** - Выход пользователя из системы <a name="logout"></a>
+
 ```php
 User \UserManager::logout(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -315,13 +323,14 @@ User \UserManager::logout(array $userData, bool $events = true, bool $cache = tr
 Функция возвращает username пользователя
 
 Параметры, которые принимает функция:
-- `$userData` - можно передавать пустой массив или вообще ничего. 
+
+- `$userData` - можно передавать пустой массив или вообще ничего.
 - `$events` - указатель вызываем ли мы события связанные с выходом пользователя из системы
 - `$cache` - указатель сбрасываем ли кэш после выхода пользователя из системы
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
@@ -338,9 +347,8 @@ try {
 }
 ```
 
-___
-<a name="setRole"></a>
-**setRole** - назначению пользователю его роли
+## **setRole** - назначению пользователю его роли <a name="setRole"></a>
+
 ```php
 User \UserManager::setRole(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -348,13 +356,14 @@ User \UserManager::setRole(array $userData, bool $events = true, bool $cache = t
 Функция возвращает объект модели пользователя User
 
 Параметры, которые принимает функция:
+
 - `$userData` - массив содержащий id пользователя и role оба поля обязательны.
 - `$events` - указатель вызываем ли мы события связанные с назначением роли пользователя
 - `$cache` - указатель сбрасываем ли кэш после назначения роли пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
@@ -372,9 +381,8 @@ try {
 }
 ```
 
-___
-<a name="setGroups"></a>
-**setGroups** - назначению пользователю его группы пользователей
+## **setGroups** - назначению пользователю его группы пользователей <a name="setGroups"></a>
+
 ```php
 User \UserManager::setGroups(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -382,13 +390,14 @@ User \UserManager::setGroups(array $userData, bool $events = true, bool $cache =
 Функция возвращает объект модели пользователя User
 
 Параметры, которые принимает функция:
+
 - `$userData` - массив содержащий id пользователя и groups массив групп пользователя. Оба поля обязательны.
 - `$events` - указатель вызываем ли мы события связанные с назначением группы пользователя
 - `$cache` - указатель сбрасываем ли кэш после назначения группы пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
@@ -406,9 +415,8 @@ try {
 }
 ```
 
-___
-<a name="clearSettings"></a>
-**clearSettings** - удаление всех настроек пользователя
+## **clearSettings** - удаление всех настроек пользователя <a name="clearSettings"></a>
+
 ```php
 User \UserManager::clearSettings(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -416,13 +424,14 @@ User \UserManager::clearSettings(array $userData, bool $events = true, bool $cac
 Функция возвращает true в случае успешного сохранения
 
 Параметры, которые принимает функция:
+
 - `$userData` - массив содержащий id пользователя. Поле id является обязательным.
 - `$events` - указатель вызываем ли мы события связанные с удалением настроек пользователя
 - `$cache` - указатель сбрасываем ли кэш после удаления настроек пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
@@ -440,9 +449,8 @@ try {
 }
 ```
 
-___
-<a name="saveSettings"></a>
-**saveSettings** - сохранение настроек пользователя
+## **saveSettings** - сохранение настроек пользователя <a name="saveSettings"></a>
+
 ```php
 User \UserManager::saveSettings(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -450,13 +458,14 @@ User \UserManager::saveSettings(array $userData, bool $events = true, bool $cach
 Функция возвращает true в случае успешного сохранения
 
 Параметры, которые принимает функция:
+
 - `$userData` - массив содержащий id пользователя и прочие данные. Поле id является обязательным.
 - `$events` - указатель вызываем ли мы события связанные с сохранением настроек пользователя
 - `$cache` - указатель сбрасываем ли кэш после сохранения настроек пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
@@ -474,9 +483,8 @@ try {
 }
 ```
 
-___
-<a name="repair"></a>
-**repairPassword** - получение хэша для сброса пароля
+## **repairPassword** - получение хэша для сброса пароля <a name="repair"></a>
+
 ```php
 User \UserManager::repairPassword(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -484,13 +492,14 @@ User \UserManager::repairPassword(array $userData, bool $events = true, bool $ca
 Функция возвращает hash для сброса пароля
 
 Параметры, которые принимает функция:
+
 - `$userData` - массив содержащий id пользователя. Поле id является обязательным.
 - `$events` - указатель вызываем ли мы события связанные с созданием хэша пароля пользователя
-- `$cache` - указатель сбрасываем ли кэш после создания  хэша пароля пользователя
+- `$cache` - указатель сбрасываем ли кэш после создания хэша пароля пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
@@ -508,9 +517,8 @@ try {
 }
 ```
 
-___
-<a name="changePassword"></a>
-**changePassword** - смена пароля при наличии старого пароля
+## **changePassword** - смена пароля при наличии старого пароля <a name="changePassword"></a>
+
 ```php
 User \UserManager::changePassword(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -518,13 +526,14 @@ User \UserManager::changePassword(array $userData, bool $events = true, bool $ca
 Функция возвращает hash для сброса пароля
 
 Параметры, которые принимает функция:
+
 - `$userData` - массив содержащий поля `id, old_password, password, password_confirmation`. Все поля обязательны к заполнению.
 - `$events` - указатель вызываем ли мы события связанные со сменой пароля пользователя
 - `$cache` - указатель сбрасываем ли кэш после смены пароля пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
@@ -542,9 +551,8 @@ try {
 }
 ```
 
-___
-<a name="hashChangePassword"></a>
-**hashChangePassword** - смена пароля по хэшу полученному из метода [ repairPassword ](#repair)
+## **hashChangePassword** - смена пароля по хэшу полученному из метода [ repairPassword ](#repair) <a name="hashChangePassword"></a>
+
 ```php
 User \UserManager::hashChangePassword(array $userData, bool $events = true, bool $cache = true)
 ```
@@ -552,13 +560,14 @@ User \UserManager::hashChangePassword(array $userData, bool $events = true, bool
 Функция возвращает hash для сброса пароля
 
 Параметры, которые принимает функция:
+
 - `$userData` - массив содержащий поля `hash, password, password_confirmation`. Все поля обязательны к заполнению.
 - `$events` - указатель вызываем ли мы события связанные со сменой пароля пользователя
 - `$cache` - указатель сбрасываем ли кэш после смены пароля пользователя
 
 **ВНИМАНИЕ**
-Функция может бросить два различных исключения 
- 
+Функция может бросить два различных исключения
+
 - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
 - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
@@ -576,138 +585,138 @@ try {
 }
 ```
 
-<a name="generateAndSavePassword"></a>
- **generateAndSavePassword** - смена пароля на автосгенерированный для дальнейшей отправки пользователю
- ```php
- User \UserManager::generateAndSavePassword(array $userData, bool $events = true, bool $cache = true)
- ```
+## **generateAndSavePassword** - смена пароля на автосгенерированный для дальнейшей отправки пользователю <a name="generateAndSavePassword"></a>
 
- Функция возвращает пароль
+```php
+User \UserManager::generateAndSavePassword(array $userData, bool $events = true, bool $cache = true)
+```
 
- Параметры, которые принимает функция:
- - `$userData` - массив содержащий поле `id`. Поле обязательно к заполнению.
- - `$events` - указатель вызываем ли мы события связанные со сменой пароля пользователя
- - `$cache` - указатель сбрасываем ли кэш после смены пароля пользователя
+Функция возвращает пароль
 
- **ВНИМАНИЕ**
- Функция может бросить два различных исключения 
+Параметры, которые принимает функция:
 
- - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
- - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
+- `$userData` - массив содержащий поле `id`. Поле обязательно к заполнению.
+- `$events` - указатель вызываем ли мы события связанные со сменой пароля пользователя
+- `$cache` - указатель сбрасываем ли кэш после смены пароля пользователя
 
- Пример функции смена пароля
+**ВНИМАНИЕ**
+Функция может бросить два различных исключения
 
- ```php
- $data = [ 'id' => 1 ];
- try {
-     $password = \UserManager::generateAndSavePassword($data);
- } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
-     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-     print_r($validateErrors); //Выводим все ошибки валидации
- } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-     print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
- }
- ```
+- **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
+- **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
- ___
- <a name="refreshToken"></a>
- **refreshToken** - обновление токена авторизации
- ```php
- User \UserManager::refreshToken(array $userData, bool $events = true, bool $cache = true)
- ```
+Пример функции смена пароля
 
- Функция возвращает актуальный токен
+```php
+$data = [ 'id' => 1 ];
+try {
+    $password = \UserManager::generateAndSavePassword($data);
+} catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
+    $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
+    print_r($validateErrors); //Выводим все ошибки валидации
+} catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
+    print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+}
+```
 
- Параметры, которые принимает функция:
- - `$userData` - массив содержащий поле `refresh_token`. Поле обязательно к заполнению.
- - `$events` - указатель вызываем ли мы события связанные с обновлением токена пользователя
- - `$cache` - указатель сбрасываем ли кэш после обновления токена пользователя
+## **refreshToken** - обновление токена авторизации <a name="refreshToken"></a>
 
- **ВНИМАНИЕ**
- Функция может бросить два различных исключения 
+```php
+User \UserManager::refreshToken(array $userData, bool $events = true, bool $cache = true)
+```
 
- - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
- - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
+Функция возвращает актуальный токен
 
- Пример функции обновления токена
+Параметры, которые принимает функция:
 
- ```php
- $data = [ 'refresh_token' => '1asdasd1sad2dd4t54351fd1dfs1fd1' ];
- try {
-     $token = \UserManager::refreshToken($data);
- } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
-     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-     print_r($validateErrors); //Выводим все ошибки валидации
- } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-     print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
- }
- ```
+- `$userData` - массив содержащий поле `refresh_token`. Поле обязательно к заполнению.
+- `$events` - указатель вызываем ли мы события связанные с обновлением токена пользователя
+- `$cache` - указатель сбрасываем ли кэш после обновления токена пользователя
 
- ___
- <a name="getVerifiedKey"></a>
- **getVerifiedKey** - получение ключа верификации пользователя
- ```php
- User \UserManager::getVerifiedKey(array $userData, bool $events = true, bool $cache = true)
- ```
+**ВНИМАНИЕ**
+Функция может бросить два различных исключения
 
- Функция возвращает объект пользователя из которого можно получить ключ верификации `$user->verified_key`;
+- **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
+- **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
- Параметры, которые принимает функция:
- - `$userData` - массив содержащий поле `id`. Поле обязательно к заполнению.
- - `$events` - указатель вызываем ли мы события связанные с верификацией пользователя
- - `$cache` - указатель сбрасываем ли кэш после верификации пользователя
+Пример функции обновления токена
 
- **ВНИМАНИЕ**
- Функция может бросить два различных исключения 
+```php
+$data = [ 'refresh_token' => '1asdasd1sad2dd4t54351fd1dfs1fd1' ];
+try {
+    $token = \UserManager::refreshToken($data);
+} catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
+    $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
+    print_r($validateErrors); //Выводим все ошибки валидации
+} catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
+    print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+}
+```
 
- - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
- - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
+## **getVerifiedKey** - получение ключа верификации пользователя <a name="getVerifiedKey"></a>
 
- Пример функции обновления токена
+```php
+User \UserManager::getVerifiedKey(array $userData, bool $events = true, bool $cache = true)
+```
 
- ```php
- $data = [ 'id' => '1' ];
- try {
-     $user = \UserManager::getVerifiedKey($data);
- } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
-     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-     print_r($validateErrors); //Выводим все ошибки валидации
- } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-     print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
- }
- ```
+Функция возвращает объект пользователя из которого можно получить ключ верификации `$user->verified_key`;
 
+Параметры, которые принимает функция:
 
- ___
- <a name="verified"></a>
- **verified** - подтверждение пользователя с помощью ключа верификации
- ```php
- User \UserManager::verified(array $userData, bool $events = true, bool $cache = true)
- ```
+- `$userData` - массив содержащий поле `id`. Поле обязательно к заполнению.
+- `$events` - указатель вызываем ли мы события связанные с верификацией пользователя
+- `$cache` - указатель сбрасываем ли кэш после верификации пользователя
 
- Функция возвращает объект пользователя
+**ВНИМАНИЕ**
+Функция может бросить два различных исключения
 
- Параметры, которые принимает функция:
- - `$userData` - массив содержащий поля `verified_key` и `username`. Оба поля обязательны к заполнению.
- - `$events` - указатель вызываем ли мы события связанные с верификацией пользователя
- - `$cache` - указатель сбрасываем ли кэш после оверификациии пользователя
+- **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
+- **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
 
- **ВНИМАНИЕ**
- Функция может бросить два различных исключения 
+Пример функции обновления токена
 
- - **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
- - **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
+```php
+$data = [ 'id' => '1' ];
+try {
+    $user = \UserManager::getVerifiedKey($data);
+} catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
+    $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
+    print_r($validateErrors); //Выводим все ошибки валидации
+} catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
+    print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+}
+```
 
- Пример функции обновления токена
+## **verified** - подтверждение пользователя с помощью ключа верификации <a name="verified"></a>
 
- ```php
- $data = [ 'username' => 'test', 'verified_key' => '166a44621c209ef152cc92a2316c6307'];
- try {
-     $user = \UserManager::verified($data);
- } catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
-     $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
-     print_r($validateErrors); //Выводим все ошибки валидации
- } catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
-     print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
- }
- ```
+```php
+User \UserManager::verified(array $userData, bool $events = true, bool $cache = true)
+```
+
+Функция возвращает объект пользователя
+
+Параметры, которые принимает функция:
+
+- `$userData` - массив содержащий поля `verified_key` и `username`. Оба поля обязательны к заполнению.
+- `$events` - указатель вызываем ли мы события связанные с верификацией пользователя
+- `$cache` - указатель сбрасываем ли кэш после оверификациии пользователя
+
+**ВНИМАНИЕ**
+Функция может бросить два различных исключения
+
+- **\EvolutionCMS\Exceptions\ServiceValidationException** исключение срабатывает в случае если мы передали плохие данные в $userData.
+- **\EvolutionCMS\Exceptions\ServiceActionException** исключение срабатывает в ситуации когда возникла ошибка в процессе обработки данных.
+
+Пример функции обновления токена
+
+```php
+$data = [ 'username' => 'test', 'verified_key' => '166a44621c209ef152cc92a2316c6307'];
+try {
+    $user = \UserManager::verified($data);
+} catch (\EvolutionCMS\Exceptions\ServiceValidationException $exception) {
+    $validateErrors = $exception->getValidationErrors(); //Получаем все ошибки валидации
+    print_r($validateErrors); //Выводим все ошибки валидации
+} catch (\EvolutionCMS\Exceptions\ServiceActionException $exception) {
+    print_r($exception->getMessage()); //Выводим ошибку процесса обработки данных
+}
+```
