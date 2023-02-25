@@ -1,11 +1,11 @@
-# Консоль Artisan в EvolutionCMS #
+# Консоль Artisan в EvolutionCMS
 
 План статьи:
+
 1. зачем. упомянуть про создание своей команды и ссылку дать
 2. использование и про cd core сказать
 3. Часто используемые команды, пара слов о каждой
 4. перевод команд
-
 
 ```
 Usage:
@@ -65,4 +65,4 @@ Available commands:
   vendor:publish           Publish any publishable assets from vendor packages
  view
   view:clear               Clear all compiled view files
-  ```
+```
