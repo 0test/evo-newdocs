@@ -18,6 +18,15 @@ php artisan make:site update
 
 Где `example.com` - корневая папка вашего проекта.
 
+При возникновении проблем с composer необходимо выполнить в `example.com/core` команду:
+```
+composer update
+```
+Если команда выполнилась успешно, то завершить обновление командой:
+```
+php  ../install/cli-install.php --typeInstall=2 --removeInstall=y
+```
+
 ## 2. С помощью файла быстрой установки <a name="section2"></a>
 
 - Скачайте файл [install.php](https://github.com/evocms-community/installer/blob/master/install.php)
