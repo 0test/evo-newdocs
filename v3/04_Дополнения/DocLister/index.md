@@ -37,5 +37,5 @@
 - [FastImageTV](../FastImageTV/index.md) - custom TV для загрузки картинки к документу
 - [DLRequest](../DLRequest/index.md) - запуск сниппетов с параметрами из get/post
 - [evoSearch](../evoSearch/index.md) - поиск по сайту
-- eFilter
+- [eFilter](../eFilter/index.md) - фильтр и сортировка товаров
 - [Selector](../Selector/index.md) - custom TV для составления списка документов
