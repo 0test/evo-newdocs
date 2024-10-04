@@ -32,10 +32,11 @@
 - [SimpleTube](../SimpleTube/index.md) – плагин и сниппет для создания видеогалерей
 - [SimpleFiles](../SimpleFiles/index.md) – прикрепляем к странице файлы
 - [SimplePolls](../SimplePolls/index.md) - голосования и опросы
-- LikeDislike – возможность ставить оценки
+- [LikeDislike](../LikeDislike/index.md) – возможность ставить оценки
 - [FormLister](../FormLister/index.md) - cниппет для работы с формами
 - [FastImageTV](../FastImageTV/index.md) - custom TV для загрузки картинки к документу
 - [DLRequest](../DLRequest/index.md) - запуск сниппетов с параметрами из get/post
 - [evoSearch](../evoSearch/index.md) - поиск по сайту
 - [eFilter](../eFilter/index.md) - фильтр и сортировка товаров
 - [Selector](../Selector/index.md) - custom TV для составления списка документов
+- [Commerce](../Commerce/index.md) - интернет-магазин
