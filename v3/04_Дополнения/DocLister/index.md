@@ -40,3 +40,4 @@
 - [eFilter](../eFilter/index.md) - фильтр и сортировка товаров
 - [Selector](../Selector/index.md) - custom TV для составления списка документов
 - [Commerce](../Commerce/index.md) - интернет-магазин
+- [EditDocs](../editDocs/) - загрузка контента из файла
