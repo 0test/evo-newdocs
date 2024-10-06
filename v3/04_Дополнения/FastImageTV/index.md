@@ -1,10 +1,8 @@
 # FastImageTV
 
-**Важно!** Для работы необходимо наличие `DocLister`.
+Для работы необходимо наличие `DocLister`.
 
-Автор: [Pathologic](https://github.com/Pathologic/)
-
-Скачать можно здесь: [FastImageTV](https://github.com/Pathologic/FastImageTV).
+Автор: [Pathologic](https://github.com/Pathologic//FastImageTV)
 
 Аналог Revo-компонента FastUploadTV. Позволяет добавлять картинки в TV-параметры без вызова файлового менеджера.
 
