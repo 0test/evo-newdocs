@@ -11,13 +11,13 @@
 | параметр                          | описание                          | по умолч.        |
 | --------------------------------- | --------------------------------- | ---------------- |
 | [id](#param_id)                   | Страница для построение навигации | текущая страница |
-| [hideMain](#param_hidemain)       | Без домашней страницы             | 0                |
-| [showCurrent](#param_showcurrent) | Показывать текущую страницу       | 0                |
-| [minDocs](#param_mindocs)         | Сколько показывать                | 0                |
+| [hideMain](#param_hidemain)       | Без домашней страницы             | `0`              |
+| [showCurrent](#param_showcurrent) | Показывать текущую страницу       | `0`              |
+| [minDocs](#param_mindocs)         | Сколько показывать                | `0`              |
 | [tpl](#param_tpl)                 | Шаблон элемента                   | см. описание     |
 | [tplFirst](#param_tplfirst)       | Шаблон первого элемента           | см. описание     |
 | [tplCurrent](#param_tplcurrent)   | Шаблон текущей страницы           | см.описание      |
-| [ownerTPL](#param_ownertpl)       | Шаблон обёртки                    | см.описание      |
+| [ownerTpl](#param_ownertpl)       | Шаблон обёртки                    | см.описание      |
 
 ### <a name="params_id"></a> id
 
@@ -91,7 +91,7 @@ _По умолчанию:_
 </li>
 ```
 
-### <a name="params_ownertpl"></a> ownerTPL
+### <a name="params_ownertpl"></a> ownerTpl
 
 Шаблон обертки.
 

@@ -1,6 +1,6 @@
 # Selector
 
-**Важно!** Для работы требуется `DocLister`.
+> Важно! Для работы требуется `DocLister`.
 
 `Selector` является заменой для `mm_ddSelectDocuments` (устаревший ManagerManager), это custom TV для составления списка документов в Evolution CMS.
 
@@ -21,7 +21,7 @@
 <?php namespace Selector;
 include_once(MODX_BASE_PATH.'assets/tvs/selector/lib/controller.class.php');
 class RelatedController extends SelectorController {
-... // переопределяем что нужно
+// ... переопределяем что нужно
 }
 ```
 
