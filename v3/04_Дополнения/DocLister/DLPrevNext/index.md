@@ -10,19 +10,19 @@
 
 | параметр                          | описание                      | умолч. |
 | --------------------------------- | ----------------------------- | ------ |
-| [prevnextTPL](#param_prevnexttpl) | ссылки на соседние документы  |        |
-| [prevTPL](#param_prevtpl)         | ссылка на предыдущий документ |        |
-| [nextTPL](#param_nexttpl)         | ссылка на следующйи документ  |        |
+| [prevnextTpl](#param_prevnexttpl) | ссылки на соседние документы  |        |
+| [prevTpl](#param_prevtpl)         | ссылка на предыдущий документ |        |
+| [nextTpl](#param_nexttpl)         | ссылка на следующйи документ  |        |
 
-### <a name="param_prevnexttpl"></a> prevnextTPL
+### <a name="param_prevnexttpl"></a> prevnextTpl
 
 Вывод ссылок на соседние документы, имя чанка или код (через `@CODE:`), содержит 2 плейсхолдера `[+prev+]` и `[+next+]`.
 
-### <a name="param_prevtpl"></a> prevTPL
+### <a name="param_prevtpl"></a> prevTpl
 
 Вывод ссылки на предыдущий документ, имя чанка или код (через `@CODE:`), запишется в плейсхолдер `[+prev+]`.
 
-### <a name="param_nexttpl"></a> nextTPL
+### <a name="param_nexttpl"></a> nextTpl
 
 Вывод ссылки на следующий документ, имя чанка или код (через `@CODE:`), запишется в плейсхолдер `[+next+]`.
 
@@ -33,9 +33,9 @@
 ```
 [[DLPrevNext?
     &idType=`parents`
-    &prevnextTPL=`@CODE: [+prev+] | [+next+]`
-    &prevTPL=`@CODE: <a href="[+url+]">&larr; [+title+]</a>`
-    &nextTPL=`@CODE: <a href="[+url+]">[+title+] &rarr;</a>`
+    &prevnextTpl=`@CODE: [+prev+] | [+next+]`
+    &prevTpl=`@CODE: <a href="[+url+]">&larr; [+title+]</a>`
+    &nextTpl=`@CODE: <a href="[+url+]">[+title+] &rarr;</a>`
 ]]
 ```
 
@@ -47,8 +47,8 @@
 [[DLPrevNext?
     &idType=`parents`
     &parents=`[*parent*]`
-    &prevnextTPL=`@CODE: [+prev+] | [+next+]`
-    &prevTPL=`@CODE: <a href="[+url+]">&larr; [+title+]</a>`
-    &nextTPL=`@CODE: <a href="[+url+]">[+title+] &rarr;</a>`
+    &prevnextTpl=`@CODE: [+prev+] | [+next+]`
+    &prevTpl=`@CODE: <a href="[+url+]">&larr; [+title+]</a>`
+    &nextTpl=`@CODE: <a href="[+url+]">[+title+] &rarr;</a>`
 ]]
 ```
